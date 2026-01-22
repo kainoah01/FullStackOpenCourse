@@ -14,8 +14,22 @@ mongoose
   });
 
 const personSchema = new mongoose.Schema({
-  name: String,
-  number: String,
+  name: {
+    type: String,
+    required: true,
+    minlength: 3,
+  },
+  number: {
+    type: String,
+    validate: {
+      validator: function (v) {
+        return /^\d{2,3}-\d+$/.test(v);
+      },
+      message: (props) =>
+        `${props.value} is not a valid phone number! It should be in the format XX-XXXXXX or XXX-XXXXXX (e.g., 09-1234556 or 040-22334455)`,
+    },
+    required: true,
+  },
 });
 
 personSchema.set("toJSON", {
@@ -27,34 +41,3 @@ personSchema.set("toJSON", {
 });
 
 module.exports = mongoose.model("Person", personSchema);
-
-// const generateRandomId = () => {
-//   return Math.floor(Math.random() * 1000000).toString();
-// };
-
-// Adding entries to the phonebook
-// if (process.argv.length > 3) {
-//   const name = process.argv[3];
-//   const number = process.argv[4];
-//   const person = new Person({
-//     id: generateRandomId(),
-//     name: name,
-//     number: number,
-//   });
-
-//   person.save().then((result) => {
-//     console.log(`added ${name} number ${number} to phonebook`);
-//     mongoose.connection.close();
-//   });
-// }
-
-// // Return all phonebooks entries
-// if (process.argv.length === 3) {
-//   console.log("phonebook:");
-//   Person.find({}).then((result) => {
-//     result.forEach((person) => {
-//       console.log(person.name, person.number);
-//     });
-//     mongoose.connection.close();
-//   });
-// }
