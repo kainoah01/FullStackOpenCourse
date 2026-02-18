@@ -12,8 +12,10 @@
     "test": "NODE_ENV=test node --test"
   },
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
     "mogoose": "^0.0.1-security",
     "mongoose": "^9.1.5"
   },
